@@ -35,6 +35,7 @@
             <CheckBox fx:id="cbEffect9" layoutX="29.0" layoutY="174.0" mnemonicParsing="false" selected="true" text="Slow Down Clip (/pitch)" />
             <CheckBox fx:id="cbEffect10" layoutX="29.0" layoutY="191.0" mnemonicParsing="false" selected="true" text="Dance" />
             <CheckBox fx:id="cbEffect11" layoutX="29.0" layoutY="208.0" mnemonicParsing="false" selected="true" text="Squidward" />
+            <CheckBox fx:id="cbEffect12" layoutX="29.0" layoutY="225.0" mnemonicParsing="false" selected="true" text="Mirror" />
             <Button fx:id="btnHelpMeEffect" layoutX="153.0" layoutY="10.0" mnemonicParsing="false" onAction="#helpMeEffect" prefHeight="25.0" prefWidth="28.0" text="?" />
          </children>
       </AnchorPane>

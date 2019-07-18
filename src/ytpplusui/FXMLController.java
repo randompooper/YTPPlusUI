@@ -70,6 +70,9 @@ public class FXMLController {
     private CheckBox cbEffect11;
 
     @FXML
+    private CheckBox cbEffect12;
+
+    @FXML
     private Button btnCreate;
 
     @FXML
@@ -223,6 +226,7 @@ public class FXMLController {
                 generator.effect9 = cbEffect9.isSelected();
                 generator.effect10 = cbEffect10.isSelected();
                 generator.effect11 = cbEffect11.isSelected();
+                generator.effect12 = cbEffect12.isSelected();
                 generator.insertTransitionClips = cbUseTransitions.isSelected();
                 
                 System.out.println("poop5");
