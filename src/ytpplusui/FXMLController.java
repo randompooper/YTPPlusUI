@@ -215,20 +215,33 @@ public class FXMLController {
                 generator.toolBox.RESOURCES = tfRESOURCES.getText();
                 generator.toolBox.SOURCES = tfSOURCES.getText();
                 System.out.println("poop4");
-                generator.randomSound = cbEffect1.isSelected();
-                generator.randomSoundMute = cbEffect2.isSelected();
-                generator.reverse = cbEffect3.isSelected();
-                generator.speedUp = cbEffect4.isSelected();
-                generator.slowDown = cbEffect5.isSelected();
-                generator.chorus = cbEffect6.isSelected();
-                generator.vibrato = cbEffect7.isSelected();
-                generator.highPitch = cbEffect8.isSelected();
-                generator.lowPitch = cbEffect9.isSelected();
-                generator.dance = cbEffect10.isSelected();
-                generator.squidward = cbEffect11.isSelected();
-                generator.mirror = cbEffect12.isSelected();
-                generator.insertTransitionClips = cbUseTransitions.isSelected();
-                
+
+                if (cbEffect1.isSelected())
+                    generator.setEffect("RandomSound", 10);
+                if (cbEffect2.isSelected())
+                    generator.setEffect("RandomSoundMute", 10);
+                if (cbEffect3.isSelected())
+                    generator.setEffect("Reverse", 10);
+                if (cbEffect4.isSelected())
+                    generator.setEffect("SpeedUp", 10);
+                if (cbEffect5.isSelected())
+                    generator.setEffect("SlowDown", 10);
+                if (cbEffect6.isSelected())
+                    generator.setEffect("Chorus", 10);
+                if (cbEffect7.isSelected())
+                    generator.setEffect("Vibrato", 10);
+                if (cbEffect8.isSelected())
+                    generator.setEffect("HighPitch", 10);
+                if (cbEffect9.isSelected())
+                    generator.setEffect("LowPitch", 10);
+                if (cbEffect10.isSelected())
+                    generator.setEffect("Dance", 5);
+                if (cbEffect11.isSelected())
+                    generator.setEffect("Squidward", 3);
+                if (cbEffect12.isSelected())
+                    generator.setEffect("Mirror", 5);
+
+                generator.setTransitionClipChance(cbUseTransitions.isSelected() ? 6 : 0);
                 System.out.println("poop5");
                 for (String source : sourceList) {
                     generator.addSource(source);
