@@ -23,9 +23,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javax.swing.DefaultListModel;
@@ -33,44 +31,6 @@ import zone.arctic.ytpplus.YTPGenerator;
 
 public class FXMLController {
 // <editor-fold defaultstate="collapsed" desc="idk how to neaten this so heres a fold to make it neater">
-    @FXML
-    private MediaView mediaviewVideoPlayer;
-
-    @FXML
-    private CheckBox cbEffect1;
-
-    @FXML
-    private CheckBox cbEffect2;
-
-    @FXML
-    private CheckBox cbEffect3;
-
-    @FXML
-    private CheckBox cbEffect4;
-
-    @FXML
-    private CheckBox cbEffect5;
-
-    @FXML
-    private CheckBox cbEffect6;
-
-    @FXML
-    private CheckBox cbEffect7;
-
-    @FXML
-    private CheckBox cbEffect8;
-
-    @FXML
-    private CheckBox cbEffect9;
-
-    @FXML
-    private CheckBox cbEffect10;
-
-    @FXML
-    private CheckBox cbEffect11;
-
-    @FXML
-    private CheckBox cbEffect12;
 
     @FXML
     private Button btnCreate;
@@ -86,15 +46,6 @@ public class FXMLController {
 
     @FXML
     private ProgressBar barProgress;
-
-    @FXML
-    private Button btnPlayVideo;
-
-    @FXML
-    private Button btnPauseVideo;
-
-    @FXML
-    private Button restartVideo;
 
     @FXML
     private TextField tfFFMPEG;
@@ -139,38 +90,35 @@ public class FXMLController {
     private Button btnBrowseRESOURCES;
 
     @FXML
+    private TextField tfSOURCES;
+
+    @FXML
     private Button btnHelpMeConfig;
 
     @FXML
     private ListView<String> listviewSourcesList;
 
     @FXML
-    private TextField tfSOURCES;
-
-    @FXML
     private Button btnBrowseSOURCES;
-
-    @FXML
-    private CheckBox cbUseTransitions;
 
     @FXML
     private Button btnSaveAs;
 
     @FXML
-    private Button btnAddSource;
+    private TextField randomSound, randomSoundMute, reverse, speedUp,
+        slowDown, chorusAudio, vibratoAudio, highPitch, lowPitch,
+        mirror, dance, squidward;
 
     @FXML
-    private Button btnRemoveSource;
+    private TextField effectChance, transitionClipChance;
+
 // </editor-fold>
     
     //javafx sucks. It's got a lot under the hood but it sucks.
     //This is incredibly messy. And I can't fix it because javafx sucks.
     //Moral of this story is don't use javafx. Swing is your friend.
-    
+
     ObservableList<String> sourceList = FXCollections.observableArrayList();
-    
-    String TEMP = "temp/";
-    //Media m;
     
     @FXML
     void addSource(ActionEvent event) {
@@ -200,62 +148,49 @@ public class FXMLController {
                 try {
                 btnCreate.setDisable(true);
                 System.out.println("poop");
+
+                String TEMP = tfTEMP.getText();
                 YTPGenerator generator = new YTPGenerator(TEMP + "tempoutput.mp4");
                 System.out.println("poop2");
-                generator.toolBox.FFMPEG = tfFFMPEG.getText();
-                generator.toolBox.FFPROBE = tfFFPROBE.getText();
-                generator.toolBox.MAGICK = tfMAGICK.getText();
+                generator.setFFmpeg(tfFFMPEG.getText());
+                generator.setFFprobe(tfFFPROBE.getText());
+                generator.setMagick(tfMAGICK.getText());
                 System.out.println("poop3");
-                String jobDir = tfTEMP.getText() + "job_" + System.currentTimeMillis() + "/";
-                generator.toolBox.TEMP = jobDir;
+                String jobDir = TEMP + "job_" + System.currentTimeMillis() + "/";
+                generator.setTemp(jobDir);
                 new File(jobDir).mkdir();
-                new File(generator.toolBox.TEMP).mkdir();
-                generator.toolBox.SOUNDS = tfSOUNDS.getText();
-                generator.toolBox.MUSIC = tfMUSIC.getText();
-                generator.toolBox.RESOURCES = tfRESOURCES.getText();
-                generator.toolBox.SOURCES = tfSOURCES.getText();
+                new File(generator.getTemp()).mkdir();
+                generator.setSounds(tfSOUNDS.getText());
+                generator.setMusic(tfMUSIC.getText());
+                generator.setResources(tfRESOURCES.getText());
+                generator.setSources(tfSOURCES.getText());
                 System.out.println("poop4");
 
-                if (cbEffect1.isSelected())
-                    generator.setEffect("RandomSound", 10);
-                if (cbEffect2.isSelected())
-                    generator.setEffect("RandomSoundMute", 10);
-                if (cbEffect3.isSelected())
-                    generator.setEffect("Reverse", 10);
-                if (cbEffect4.isSelected())
-                    generator.setEffect("SpeedUp", 10);
-                if (cbEffect5.isSelected())
-                    generator.setEffect("SlowDown", 10);
-                if (cbEffect6.isSelected())
-                    generator.setEffect("Chorus", 10);
-                if (cbEffect7.isSelected())
-                    generator.setEffect("Vibrato", 10);
-                if (cbEffect8.isSelected())
-                    generator.setEffect("HighPitch", 10);
-                if (cbEffect9.isSelected())
-                    generator.setEffect("LowPitch", 10);
-                if (cbEffect10.isSelected())
-                    generator.setEffect("Dance", 5);
-                if (cbEffect11.isSelected())
-                    generator.setEffect("Squidward", 3);
-                if (cbEffect12.isSelected())
-                    generator.setEffect("Mirror", 5);
+                generator.setEffectChance(Integer.parseInt(effectChance.getText()));
+                generator.setTransitionClipChance(Integer.parseInt(transitionClipChance.getText()));
+                generator.setEffect("RandomSound", Integer.parseInt(randomSound.getText()));
+                generator.setEffect("RandomSoundMute", Integer.parseInt(randomSoundMute.getText()));
+                generator.setEffect("Reverse", Integer.parseInt(reverse.getText()));
+                generator.setEffect("SpeedUp", Integer.parseInt(speedUp.getText()));
+                generator.setEffect("SlowDown", Integer.parseInt(slowDown.getText()));
+                generator.setEffect("Chorus", Integer.parseInt(chorusAudio.getText()));
+                generator.setEffect("Vibrato", Integer.parseInt(vibratoAudio.getText()));
+                generator.setEffect("HighPitch", Integer.parseInt(highPitch.getText()));
+                generator.setEffect("LowPitch", Integer.parseInt(lowPitch.getText()));
+                generator.setEffect("Dance", Integer.parseInt(dance.getText()));
+                generator.setEffect("Squidward", Integer.parseInt(squidward.getText()));
+                generator.setEffect("Mirror", Integer.parseInt(mirror.getText()));
 
-                generator.setTransitionClipChance(cbUseTransitions.isSelected() ? 6 : 0);
                 System.out.println("poop5");
                 for (String source : sourceList) {
                     generator.addSource(source);
                 }
                 System.out.println("poop6");
                 int maxclips = Integer.parseInt(tfClipCount.getText());
-                generator.setMaxClips(Integer.parseInt(tfClipCount.getText()));
+                generator.setMaxClips(maxclips);
                 generator.setMaxDuration(Double.parseDouble(tfMaxStream.getText()));
                 generator.setMinDuration(Double.parseDouble(tfMinStream.getText()));
                 System.out.println("poop7");
-                
-                double timeStarted = System.nanoTime();
-                double elapsedTime = System.nanoTime() - timeStarted;
-
                 
                 generator.go();
                 System.out.println("poop8");
@@ -266,19 +201,9 @@ public class FXMLController {
                     } catch (InterruptedException ex) {
                         // Keep going
                     }
-                //    System.out.println((elapsedTime * generator.doneCount ) - elapsedTime);
                 }
                 barProgress.setProgress(1);
-                try {
-                mediaviewVideoPlayer.getMediaPlayer().stop();
-                } catch (Exception ex) {} //if there's no video then don't bother doing anything
-                
-                Thread.sleep(1000);
-                File media = new File(tfTEMP.getText() + "tempoutput.mp4");
                 //System.out.println("AAAAAAAAAAAAAAA" + media.toURL().toString());
-                Media m = new Media(media.toURI().toString());
-                MediaPlayer mm = new MediaPlayer(m);
-                mediaviewVideoPlayer.setMediaPlayer(mm);
                 btnCreate.setDisable(false);
                 } catch (Exception ex) {
                    
@@ -373,33 +298,16 @@ public class FXMLController {
         LAST_BROWSED = selected.getParentFile();
     }
 
-    
-    //MediaPlayer player = new MediaPlayer(m);
-    
-    @FXML
-    void pauseTheVideo(ActionEvent event) {
-        try {
-        mediaviewVideoPlayer.getMediaPlayer().pause();
-        } catch (Exception ex) {} //if there's no video then don't bother doing anything
-    }
-
-    @FXML
-    void playTheVideo(ActionEvent event) {
-        try {
-        mediaviewVideoPlayer.getMediaPlayer().play();
-        } catch (Exception ex) {} //if there's no video then don't bother doing anything
-    }
-
     @FXML
     void removeSource(ActionEvent event) {
-        sourceList.remove(listviewSourcesList.getSelectionModel().getSelectedItems().get(0));
+        ObservableList<String> selection = listviewSourcesList.getSelectionModel().getSelectedItems();
+        if (selection.size() > 0)
+            sourceList.removeAll(selection);
     }
 
     @FXML
-    void restartTheVideo(ActionEvent event) {
-        try {
-        mediaviewVideoPlayer.getMediaPlayer().stop();
-        } catch (Exception ex) {} //if there's no video then don't bother doing anything
+    void removeAllSource(ActionEvent event) {
+        sourceList.clear();
     }
 
     @FXML

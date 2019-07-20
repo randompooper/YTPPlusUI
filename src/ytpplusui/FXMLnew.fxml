@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="2" fx:controller="ytpplusui.FXMLController" xmlns:fx="http://javafx.com/fxml" alignment="top_left">
+    <GridPane hgap="5">
+        <Label text="Utilities:" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+        <Label text="ffmpeg:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.Hgrow="always">
+            <TextField fx:id="tfFFMPEG" HBox.Hgrow="always" maxWidth="Infinity"  text="ffmpeg" />
+            <Button fx:id="btnBrowseFFMPEG" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+        </HBox>
+        <Label text="ffprobe:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="tfFFPROBE" HBox.Hgrow="always" maxWidth="Infinity" text="ffprobe" />
+            <Button fx:id="btnBrowseFFPROBE" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+        </HBox>
+        <Label text="magick:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="tfMAGICK" HBox.Hgrow="always" maxWidth="Infinity" text="magick" />
+            <Button fx:id="btnBrowseMAGICK" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+        </HBox>
+        <Label text="temp dir:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <TextField fx:id="tfTEMP" HBox.Hgrow="always" maxWidth="Infinity" text="temp/" />
+            <Button fx:id="btnBrowseTEMP" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+        </HBox>
+        <Label text="sounds dir:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <TextField fx:id="tfSOUNDS" HBox.Hgrow="always" maxWidth="Infinity" text="sounds/" />
+            <Button fx:id="btnBrowseSOUNDS" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+        </HBox>
+        <Label text="music dir:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <TextField fx:id="tfMUSIC" HBox.Hgrow="always" maxWidth="Infinity" text="music/" />
+            <Button fx:id="btnBrowseMUSIC" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+        </HBox>
+        <Label text="resources dir (for fx):" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <TextField fx:id="tfRESOURCES" HBox.Hgrow="always" maxWidth="Infinity" text="resources/" />
+            <Button fx:id="btnBrowseRESOURCES" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+        </HBox>
+        <Label text="Transition clips:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <TextField fx:id="tfSOURCES" HBox.Hgrow="always" maxWidth="Infinity" text="sources/" />
+            <Button fx:id="btnBrowseSOURCES" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+        </HBox>
+    </GridPane>
+    <!--Label text="   " /-->
+    <HBox spacing="5">
+        <VBox spacing="5">
+            <GridPane hgap="5" vgap="5">
+                <!--<padding><Insets top="25" right="25" bottom="10" left="25"/></padding>-->
+                <Label text="Effects:" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" />
+
+                <Label text="Random sound" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="randomSound" GridPane.columnIndex="1" GridPane.rowIndex="1" text="5" />
+
+                <Label text="Random sound (w/mute)" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="randomSoundMute" GridPane.columnIndex="1" GridPane.rowIndex="2" text="10" />
+
+                <Label text="Reverse clip" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="reverse" GridPane.columnIndex="1" GridPane.rowIndex="3" text="2" />
+
+                <Label text="Speed up clip (no pitch)" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                <TextField fx:id="speedUp" GridPane.columnIndex="1" GridPane.rowIndex="4" text="2" />
+
+                <Label text="Slow down clip (no pitch)" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <TextField fx:id="slowDown" GridPane.columnIndex="1" GridPane.rowIndex="5" text="2" />
+
+                <Label text="Chorus audio" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                <TextField fx:id="chorusAudio" GridPane.columnIndex="1" GridPane.rowIndex="6" text="4" />
+
+                <Label text="Vibrato audio" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <TextField fx:id="vibratoAudio" GridPane.columnIndex="1" GridPane.rowIndex="7" text="4" />
+
+                <Label text="Speed up clip (w/pitch)" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                <TextField fx:id="highPitch" GridPane.columnIndex="1" GridPane.rowIndex="8" text="3" />
+
+                <Label text="Slow down clip (w/pitch)" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                <TextField fx:id="lowPitch" GridPane.columnIndex="1" GridPane.rowIndex="9" text="3" />
+
+                <Label text="Mirror" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+                <TextField fx:id="mirror" GridPane.columnIndex="1" GridPane.rowIndex="10" text="2" />
+
+                <Label text="Dance" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+                <TextField fx:id="dance" GridPane.columnIndex="1" GridPane.rowIndex="11" text="1" />
+
+                <Label text="Squidward" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+                <TextField fx:id="squidward" GridPane.columnIndex="1" GridPane.rowIndex="12" text="1" />
+
+                <Label text="Effect (0-100)%" GridPane.columnIndex="0" GridPane.rowIndex="13" />
+                <TextField fx:id="effectChance" text="50" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+
+                <Label text="Transition clip (0-100)%" GridPane.columnIndex="0" GridPane.rowIndex="14" />
+                <TextField fx:id="transitionClipChance" text="5" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+
+                <Label text="Min clip duration" GridPane.columnIndex="0" GridPane.rowIndex="15" />
+                <TextField fx:id="tfMinStream" text="0.3" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+
+                <Label text="Max clip duration" GridPane.columnIndex="0" GridPane.rowIndex="16" />
+                <TextField fx:id="tfMaxStream" text="0.9" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+
+                <Label text="Clip count" GridPane.columnIndex="0" GridPane.rowIndex="17" />
+                <TextField fx:id="tfClipCount" text="60" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+            </GridPane>
+            <HBox maxWidth="Infinity">
+                <Button fx:id="btnCreate" text="Generate" onAction="#goNow" HBox.Hgrow="always" maxWidth="Infinity" />
+                <Button text="Save" onAction="#saveAsVideo" HBox.Hgrow="always" maxWidth="Infinity" />
+            </HBox>
+        </VBox>
+        <VBox spacing="2" HBox.Hgrow="always">
+            <Label text="Sources:" />
+            <HBox alignment="baseline_right">
+                <Button text="Add" onAction="#addSource" HBox.Hgrow="always" maxWidth="Infinity" />
+                <Button text="Remove" onAction="#removeSource" HBox.Hgrow="always" maxWidth="Infinity" />
+                <Button text="Clear all" onAction="#removeAllSource" HBox.Hgrow="always" maxWidth="Infinity" />
+            </HBox>
+            <ListView fx:id="listviewSourcesList" VBox.Vgrow="always" maxHeight="Infinity" />
+        </VBox>
+    </HBox>
+    <ProgressBar fx:id="barProgress" progress="0.0" maxWidth="Infinity" />
+</VBox>

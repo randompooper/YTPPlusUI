@@ -16,11 +16,11 @@ public class MainApp extends Application {
     
     @Override
     public void start(Stage bigBoy) throws Exception {
-        Pane mainPane = (Pane)FXMLLoader.load(MainApp.class.getResource("FXML.fxml"));
+        Pane mainPane = (Pane)FXMLLoader.load(MainApp.class.getResource("FXMLnew.fxml"));
         bigBoy.setScene(new Scene(mainPane));
         bigBoy.show();
         bigBoy.setTitle("YTP+ [beta]");
-        bigBoy.setResizable(false);
+        //bigBoy.setResizable(false);
         //THIS SUCKS!
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         bigBoy.setX((screenBounds.getWidth() - bigBoy.getWidth()) / 2); 
