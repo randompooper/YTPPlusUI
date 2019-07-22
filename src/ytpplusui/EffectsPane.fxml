@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane fx:controller="ytpplusui.EffectsController" xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="5" vgap="0">
+    <Label text="Random sound (P)" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <TextField fx:id="randomSound" GridPane.columnIndex="1" GridPane.rowIndex="0" text="5" maxWidth="60" />
+
+    <Label text="Random sound (w/mute) (P)" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+    <TextField fx:id="randomSoundMute" GridPane.columnIndex="3" GridPane.rowIndex="0" text="10" maxWidth="60" />
+
+    <Label text="Reverse clip (P)" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="reverse" GridPane.columnIndex="1" GridPane.rowIndex="1" text="2" maxWidth="60" />
+
+    <Label text="Speed up clip (no pitch) (P)" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+    <TextField fx:id="speedUp" GridPane.columnIndex="3" GridPane.rowIndex="1" text="2" maxWidth="60" />
+
+    <Label text="Slow down clip (no pitch) (P)" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <TextField fx:id="slowDown" GridPane.columnIndex="1" GridPane.rowIndex="2" text="2" maxWidth="60" />
+
+    <Label text="Chorus audio (P)" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+    <TextField fx:id="chorusAudio" GridPane.columnIndex="3" GridPane.rowIndex="2" text="4" maxWidth="60" />
+
+    <Label text="Vibrato audio (P)" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <TextField fx:id="vibratoAudio" GridPane.columnIndex="1" GridPane.rowIndex="3" text="4" maxWidth="60" />
+
+    <Label text="Speed up clip (w/pitch) (P)" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+    <TextField fx:id="highPitch" GridPane.columnIndex="3" GridPane.rowIndex="3" text="3" maxWidth="60" />
+
+    <Label text="Slow down clip (w/pitch) (P)" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <TextField fx:id="lowPitch" GridPane.columnIndex="1" GridPane.rowIndex="4" text="3" maxWidth="60" />
+
+    <Label text="Mirror (P)" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+    <TextField fx:id="mirror" GridPane.columnIndex="3" GridPane.rowIndex="4" text="2" maxWidth="60" />
+
+    <Label text="Dance (P)" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+    <TextField fx:id="dance" GridPane.columnIndex="1" GridPane.rowIndex="5" text="1" maxWidth="60" />
+
+    <Label text="Squidward (P)" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+    <TextField fx:id="squidward" GridPane.columnIndex="3" GridPane.rowIndex="5" text="1" maxWidth="60" />
+
+    <Label text="Effect (%)" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+    <TextField fx:id="effectChance" GridPane.columnIndex="1" GridPane.rowIndex="6" text="50" maxWidth="60" />
+
+    <Label text="Transition clip (%)" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+    <TextField fx:id="transitionClipChance" GridPane.columnIndex="3" GridPane.rowIndex="6" text="5" maxWidth="60" />
+
+    <Label text="Min clip duration" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+    <TextField fx:id="tfMinStream" GridPane.columnIndex="1" GridPane.rowIndex="7" text="0.3" maxWidth="60" />
+
+    <Label text="Max clip duration" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+    <TextField fx:id="tfMaxStream" GridPane.columnIndex="3" GridPane.rowIndex="7" text="0.9" maxWidth="60" />
+
+    <Label text="Clip count" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.columnSpan="2" />
+    <TextField fx:id="tfClipCount" GridPane.columnIndex="1" GridPane.rowIndex="8" text="100" maxWidth="60" />
+
+    <Label text="Lazy switching" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+    <CheckBox fx:id="cbLazySwitch" GridPane.columnIndex="1" GridPane.rowIndex="9" selected="false" />
+
+    <Label text="Lazy switch (%)" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+    <TextField fx:id="tfLazySwitchChance" GridPane.columnIndex="3" GridPane.rowIndex="9" text="3" maxWidth="60" />
+
+    <Label text="Lazy interrupt (%)" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+    <TextField fx:id="tfLazySwitchInterrupt" GridPane.columnIndex="1" GridPane.rowIndex="10" text="20" maxWidth="60" />
+
+    <Label text="Lazy switch max clips" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+    <TextField fx:id="tfLazySwitchMaxClips" GridPane.columnIndex="3" GridPane.rowIndex="10" text="-1" maxWidth="60" />
+</GridPane>

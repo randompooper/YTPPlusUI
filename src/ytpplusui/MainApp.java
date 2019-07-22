@@ -1,30 +1,35 @@
 package ytpplusui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.Parent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainApp extends Application {
 
     public static void main(String[] args) {
         Application.launch(args);
     }
-    
+
     @Override
-    public void start(Stage bigBoy) throws Exception {
-        Pane mainPane = (Pane)FXMLLoader.load(MainApp.class.getResource("FXMLnew.fxml"));
-        bigBoy.setScene(new Scene(mainPane));
-        bigBoy.show();
-        bigBoy.setTitle("YTP+ [beta]");
-        //bigBoy.setResizable(false);
-        //THIS SUCKS!
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        bigBoy.setX((screenBounds.getWidth() - bigBoy.getWidth()) / 2); 
-        bigBoy.setY((screenBounds.getHeight() - bigBoy.getHeight()) / 2);  
+    public void start(Stage stage) throws Exception {
+        Parent object = FXMLLoader.load(MainApp.class.getResource("FXML.fxml"));
+
+        Scene scene = new Scene(object);
+        stage.setScene(scene);
+        stage.show();
+        scene.getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
+            Platform.exit();
+        });
+        stage.setTitle("YTP+ V1.2 Beta");
+
+        SettingsController.init();
+        EffectsController.init();
     }
-    
+
 }
