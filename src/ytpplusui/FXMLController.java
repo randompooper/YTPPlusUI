@@ -170,7 +170,6 @@ public class FXMLController {
         vidThread.stop();
         vidThread = null;
         btnCreate.setDisable(false);
-        Utilities.rmDir(new File(TEMP));
     }
 
     private ObservableList<String> getSelectedSources() {
