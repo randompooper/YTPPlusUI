@@ -4,14 +4,14 @@ YTPPlusClass = ../YTPPlus/YTPPlus.jar
 OUTPUT = YTPPlusUI.jar
 PACKAGE = ytpplusui
 LOC = src/$(PACKAGE)
-_CLASS = MainApp FXMLController EffectsController SettingsController
+_CLASS = MainApp FXMLController EffectsController SettingsController SaveableTextField SaveableCheckBox
 CLASS = $(patsubst %,$(LOC)/%.class,$(_CLASS))
 UI = FXML.fxml EffectsPane.fxml SettingsPane.fxml
 SOURCES = $(patsubst %,$(LOC)/%.java,$(_CLASS)) $(patsubst %,$(LOC)/%, $(UI))
 COMPAT = -source 8 -target 8
 
 $(OUTPUT): $(SOURCES)
-	javac $(COMPAT) -classpath $(YTPPlusClass):${PATH_TO_FX}/javafx.base.jar:${PATH_TO_FX}/javafx.graphics.jar:${PATH_TO_FX}/javafx.controls.jar:/${PATH_TO_FX}/javafx.fxml.jar:${PATH_TO_FX}/javafx.media.jar $(LOC)/*.java
+	javac $(COMPAT) -classpath $(YTPPlusClass):${PATH_TO_FX}/javafx.base.jar:${PATH_TO_FX}/javafx.graphics.jar:${PATH_TO_FX}/javafx.controls.jar:${PATH_TO_FX}/javafx.fxml.jar $(LOC)/*.java
 	cd src && jar cmfv ../manifest.mf ../$(OUTPUT) $(PACKAGE)/*.class $(PACKAGE)/*.fxml
 
 clean:

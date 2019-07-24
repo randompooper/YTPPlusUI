@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import ytpplusui.SaveableTextField;
 
 public class SettingsController {
     private static SettingsController me;
@@ -49,8 +50,11 @@ public class SettingsController {
     }
 
     @FXML
-    private TextField tfFFMPEG, tfFFPROBE, tfMAGICK, tfTEMP, tfSOUNDS,
-        tfMUSIC, tfRESOURCES, tfSOURCES, tfLazySource;
+    private SaveableTextField tfFFMPEG, tfFFPROBE, tfMAGICK, tfTEMP, tfSOUNDS,
+        tfMUSIC, tfRESOURCES, tfSOURCES;
+
+    @FXML
+    private TextField tfLazySource;
 
     @FXML
     private Button btnBrowseFFMPEG, btnBrowseFFPROBE, btnBrowseMAGICK,

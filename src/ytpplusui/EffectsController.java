@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
+import ytpplusui.SaveableCheckBox;
+import ytpplusui.SaveableTextField;
 
 public class EffectsController {
     private static EffectsController me;
@@ -38,14 +40,14 @@ public class EffectsController {
     }
 
     @FXML
-    private TextField randomSound, randomSoundMute, reverse, speedUp,
+    private SaveableTextField randomSound, randomSoundMute, reverse, speedUp,
         slowDown, chorusAudio, vibratoAudio, highPitch, lowPitch,
         mirror, dance, squidward, effectChance, transitionClipChance,
         tfClipCount, tfMaxStream, tfMinStream, tfLazySwitchChance,
         tfLazySwitchInterrupt, tfLazySwitchMaxClips;
 
     @FXML
-    private CheckBox cbLazySwitch;
+    private SaveableCheckBox cbLazySwitch;
 
     private int getInt(TextField tf) {
         return Integer.parseInt(tf.getText());
