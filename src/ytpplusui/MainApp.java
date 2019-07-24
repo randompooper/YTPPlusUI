@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class MainApp extends Application {
-
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -30,6 +29,8 @@ public class MainApp extends Application {
 
         SettingsController.init();
         EffectsController.init();
-    }
 
+        SaveableCheckBox.loadAll();
+        SaveableTextField.loadAll();
+    }
 }

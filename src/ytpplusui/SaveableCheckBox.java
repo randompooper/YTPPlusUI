@@ -1,22 +1,31 @@
 package ytpplusui;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 
 public class SaveableCheckBox extends CheckBox {
-    private int loadedHAX = 0;
+    private static List<SaveableCheckBox> myselfs = new ArrayList<SaveableCheckBox>();
     {
-        /* HAAAX: force firing listener in addListener */
-        idProperty().addListener((ob, oldV, newV) -> {
-            fire();
-        });
+        myselfs.add(this);
+    }
+
+    public static void loadAll() {
+        if (myselfs == null)
+            return;
+
+        for (SaveableCheckBox s : myselfs)
+            s.loadAndSetup();
+
+        myselfs.clear();
+        myselfs = null;
+    }
+
+    public void loadAndSetup() {
+        setSelected(loadValue(getId(), isSelected()));
         selectedProperty().addListener((ob, oldV, newV) -> {
-            /* HAAAX: in order to finally set selected state also set same value twice */
-            if (loadedHAX++ < 2)
-                setSelected(loadValue(getId(), oldV));
-            else
-                saveValue(getId(), newV);
+            saveValue(getId(), newV);
         });
     }
 
