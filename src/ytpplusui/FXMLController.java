@@ -124,9 +124,8 @@ public class FXMLController {
                 generator.setEffect("Squidward", effects.getSquidward());
                 generator.setEffect("Mirror", effects.getMirror());
 
-                for (String source : sourceList)
-                    if (!generator.addSource(source))
-                        throw new Exception("Source " + source + " is rejected");
+                for (final String source : sourceList)
+                    generator.addSource(source);
 
                 int maxclips = effects.getClipCount();
                 generator.setMaxClips(maxclips);
