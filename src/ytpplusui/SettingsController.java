@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import ytpplusui.SaveableTextField;
+import ytpplusui.SaveableCheckBox;
 
 public class SettingsController {
     private static SettingsController me;
@@ -52,6 +53,9 @@ public class SettingsController {
     @FXML
     private SaveableTextField tfFFMPEG, tfFFPROBE, tfMAGICK, tfTEMP, tfSOUNDS,
         tfMUSIC, tfRESOURCES, tfSOURCES;
+
+    @FXML
+    private SaveableCheckBox cbQualityConvert;
 
     @FXML
     private TextField tfLazySource;
@@ -99,6 +103,10 @@ public class SettingsController {
 
     public void setLazySource(String path) {
         tfLazySource.setText(path);
+    }
+
+    public boolean getQualityConvert() {
+        return cbQualityConvert.isSelected();
     }
 
     @FXML

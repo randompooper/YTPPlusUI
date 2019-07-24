@@ -139,6 +139,8 @@ public class FXMLController {
                 if (effects.getLazySwitch() && cfg.getLazySource().length() > 0)
                     generator.setLazySwitchStartingSource(cfg.getLazySource());
 
+                generator.setQualityConvert(cfg.getQualityConvert());
+
                 generator.setProgressCallback(generator.new ProgressCallback() {
                     private double pv = 0.0;
                     @Override
