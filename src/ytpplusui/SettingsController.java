@@ -35,15 +35,17 @@ public class SettingsController {
         Scene scene = new Scene(loader.load());
         myStage = new Stage();
         myStage.setScene(scene);
-        myStage.setTitle(title);
         myStage.setResizable(false);
 
         me = loader.getController();
     }
 
     public static void open() {
-        if (!myStage.isShowing())
+        if (!myStage.isShowing()) {
+            /* Fix title eventually disappearing */
+            myStage.setTitle(title);
             myStage.show();
+        }
     }
 
     public static SettingsController getController() {
