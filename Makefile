@@ -27,7 +27,9 @@ clean:
 
 jar: $(OUTPUT)
 
-run: jar
+run-nocheck:
 	exec java -classpath $(OUTPUT):$(YTPPlusClass):$(JAVAFX) $(JAVAFX_RUN) ytpplusui.MainApp
+
+run: jar run-nocheck
 
 all: jar
