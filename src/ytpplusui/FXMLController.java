@@ -59,6 +59,10 @@ public class FXMLController {
 
     private File LAST_BROWSED;
 
+    private String jobDir;
+
+    private YTPGenerator ytp = new YTPGenerator();
+
     @FXML
     void addSource(ActionEvent event) {
         FileChooser.ExtensionFilter fileFilter = new FileChooser.ExtensionFilter("All video files supported by ffmpeg", "*");
@@ -67,15 +71,19 @@ public class FXMLController {
         fileChooser.setTitle("Choose Source");
         fileChooser.setInitialDirectory(LAST_BROWSED);
         List<File> selected = fileChooser.showOpenMultipleDialog(null);
-        if (selected==null) return;
+        if (selected == null)
+            return;
+
+        ytp.setFFprobe(SettingsController.getController().getFFprobe());
         for (File file : selected) {
-            sourceList.add(file.getAbsolutePath().replace('\\', '/'));
+            String path = file.getAbsolutePath().replace('\\', '/');
+            if (ytp.addSource(path))
+                sourceList.add(path);
         }
         listviewSourcesList.setItems(sourceList);
         LAST_BROWSED = selected.get(0).getParentFile();
     }
 
-    private String TEMP;
     private Thread vidThread;
     @FXML
     void goNow(ActionEvent event) throws Exception {
@@ -83,80 +91,74 @@ public class FXMLController {
             System.out.println("You need some sources...");
             return;
         }
+
+        SettingsController cfg = SettingsController.getController();
+        EffectsController effects = EffectsController.getController();
+
+        String TEMP = cfg.getTemp();
+
+        ytp.setFFmpeg(cfg.getFFmpeg());
+        ytp.setFFprobe(cfg.getFFprobe());
+        ytp.setMagick(cfg.getMagick());
+
+        jobDir = TEMP + "job_" + System.currentTimeMillis() + "/";
+        ytp.setOutputFile(TEMP + "tempoutput.mp4");
+        ytp.setTemp(jobDir);
+        new File(TEMP).mkdir();
+        new File(ytp.getTemp()).mkdir();
+        ytp.setSounds(cfg.getSounds());
+        ytp.setMusic(cfg.getMusic());
+        ytp.setResources(cfg.getResources());
+        ytp.setSources(cfg.getSources());
+
+        ytp.setTransitionClipChance(effects.getTransitionChance());
+        ytp.setEffectChance(effects.getEffectChance());
+        ytp.setEffect("RandomSound", effects.getRandomSound());
+        ytp.setEffect("RandomSoundMute", effects.getRandomSoundMute());
+        ytp.setEffect("Reverse", effects.getReverse());
+        ytp.setEffect("SpeedUp", effects.getSpeedUp());
+        ytp.setEffect("SlowDown", effects.getSlowDown());
+        ytp.setEffect("Chorus", effects.getChorus());
+        ytp.setEffect("Vibrato", effects.getVibrato());
+        ytp.setEffect("HighPitch", effects.getHighPitch());
+        ytp.setEffect("LowPitch", effects.getLowPitch());
+        ytp.setEffect("Dance", effects.getDance());
+        ytp.setEffect("Squidward", effects.getSquidward());
+        ytp.setEffect("Mirror", effects.getMirror());
+
+        ytp.setMaxClips(effects.getClipCount());
+        ytp.setMaxDuration(effects.getMaxStream());
+        ytp.setMinDuration(effects.getMinStream());
+
+        ytp.setLazySwitch(effects.getLazySwitch());
+        ytp.setLazySwitchChance(effects.getLazySwitchChance());
+        ytp.setLazySwitchInterrupt(effects.getLazySwitchInterrupt());
+        ytp.setLazySwitchMaxClips(effects.getLazySwitchMaxClips());
+
+        if (effects.getLazySwitch() && cfg.getLazySource().length() > 0)
+            ytp.setLazySwitchStartingSource(cfg.getLazySource());
+
+        ytp.setQualityConvert(cfg.getQualityConvert());
+
+        ytp.setProgressCallback(ytp.new ProgressCallback() {
+            private double pv = 0.0;
+            @Override
+            public synchronized void progress(double v) {
+                if (v > pv)
+                    barProgress.setProgress((pv = v));
+            }
+        });
         vidThread = new Thread() {
+            @Override
             public void run() {
                 try {
-
-                btnCreate.setDisable(true);
-                barProgress.setProgress(0);
-
-                SettingsController cfg = SettingsController.getController();
-                EffectsController effects = EffectsController.getController();
-
-                TEMP = cfg.getTemp();
-                YTPGenerator generator = new YTPGenerator(TEMP + "tempoutput.mp4");
-
-                generator.setFFmpeg(cfg.getFFmpeg());
-                generator.setFFprobe(cfg.getFFprobe());
-                generator.setMagick(cfg.getMagick());
-
-                String jobDir = TEMP + "job_" + System.currentTimeMillis() + "/";
-                generator.setTemp(jobDir);
-                new File(jobDir).mkdir();
-                new File(generator.getTemp()).mkdir();
-                generator.setSounds(cfg.getSounds());
-                generator.setMusic(cfg.getMusic());
-                generator.setResources(cfg.getResources());
-                generator.setSources(cfg.getSources());
-
-                generator.setEffectChance(effects.getEffectChance());
-                generator.setTransitionClipChance(effects.getTransitionChance());
-                generator.setEffect("RandomSound", effects.getRandomSound());
-                generator.setEffect("RandomSoundMute", effects.getRandomSoundMute());
-                generator.setEffect("Reverse", effects.getReverse());
-                generator.setEffect("SpeedUp", effects.getSpeedUp());
-                generator.setEffect("SlowDown", effects.getSlowDown());
-                generator.setEffect("Chorus", effects.getChorus());
-                generator.setEffect("Vibrato", effects.getVibrato());
-                generator.setEffect("HighPitch", effects.getHighPitch());
-                generator.setEffect("LowPitch", effects.getLowPitch());
-                generator.setEffect("Dance", effects.getDance());
-                generator.setEffect("Squidward", effects.getSquidward());
-                generator.setEffect("Mirror", effects.getMirror());
-
-                for (final String source : sourceList)
-                    generator.addSource(source);
-
-                int maxclips = effects.getClipCount();
-                generator.setMaxClips(maxclips);
-                generator.setMaxDuration(effects.getMaxStream());
-                generator.setMinDuration(effects.getMinStream());
-
-                generator.setLazySwitch(effects.getLazySwitch());
-                generator.setLazySwitchChance(effects.getLazySwitchChance());
-                generator.setLazySwitchInterrupt(effects.getLazySwitchInterrupt());
-                generator.setLazySwitchMaxClips(effects.getLazySwitchMaxClips());
-                if (effects.getLazySwitch() && cfg.getLazySource().length() > 0)
-                    generator.setLazySwitchStartingSource(cfg.getLazySource());
-
-                generator.setQualityConvert(cfg.getQualityConvert());
-
-                generator.setProgressCallback(generator.new ProgressCallback() {
-                    private double pv = 0.0;
-                    @Override
-                    public synchronized void progress(double v) {
-                        if (v > pv)
-                            barProgress.setProgress((pv = v));
-                    }
-                });
-                generator.go();
-                barProgress.setProgress(1);
-                btnCreate.setDisable(false);
-
+                    btnCreate.setDisable(true);
+                    barProgress.setProgress(0);
+                    ytp.go();
                 } catch (Exception ex) {
-                    btnCreate.setDisable(false);
                     ex.printStackTrace();
                 }
+                btnCreate.setDisable(false);
                 vidThread = null;
             }
         };
@@ -171,6 +173,7 @@ public class FXMLController {
         vidThread.stop();
         vidThread = null;
         btnCreate.setDisable(false);
+        Utilities.rmDir(new File(jobDir));
     }
 
     private ObservableList<String> getSelectedSources() {
@@ -180,13 +183,18 @@ public class FXMLController {
     @FXML
     void removeSource(ActionEvent event) {
         ObservableList<String> selection = getSelectedSources();
-        if (selection.size() > 0)
+        if (selection.size() > 0) {
+            for (final String s : selection)
+                ytp.removeSource(s);
+
             sourceList.removeAll(selection);
+        }
     }
 
     @FXML
     void removeAllSource(ActionEvent event) {
         sourceList.clear();
+        ytp.clearSources();
     }
 
     @FXML
