@@ -69,4 +69,31 @@
 
     <Label text="Lazy switch max clips" GridPane.columnIndex="2" GridPane.rowIndex="10" />
     <SaveableTextField fx:id="tfLazySwitchMaxClips" GridPane.columnIndex="3" GridPane.rowIndex="10" text="-1" maxWidth="60" />
+
+    <Label text="Lazy seeking" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+    <SaveableCheckBox fx:id="cbLazySeek" GridPane.columnIndex="1" GridPane.rowIndex="11" selected="false" />
+
+    <Label text="Lazy seek (%)" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+    <SaveableTextField fx:id="tfLazySeekChance" GridPane.columnIndex="3" GridPane.rowIndex="11" text="5" maxWidth="60" />
+
+    <Label text="Lazy seek from start" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+    <SaveableCheckBox fx:id="cbLazySeekFromStart" GridPane.columnIndex="1" GridPane.rowIndex="12" selected="false" />
+
+    <Label text="Lazy seek interrupt (%)" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+    <SaveableTextField fx:id="tfLazySeekInterrupt" GridPane.columnIndex="3" GridPane.rowIndex="12" text="35" maxWidth="60" />
+
+    <Label text="Lazy seek max clips" GridPane.columnIndex="0" GridPane.rowIndex="13" />
+    <SaveableTextField fx:id="tfLazySeekMaxClips" GridPane.columnIndex="1" GridPane.rowIndex="13" text="-1" maxWidth="60" />
+
+    <Label text="Lazy seek nearby" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+    <SaveableCheckBox fx:id="cbLazySeekNearby" GridPane.columnIndex="3" GridPane.rowIndex="13" selected="true" />
+
+    <Label text="Lazy seek nearby min" GridPane.columnIndex="0" GridPane.rowIndex="14" />
+    <SaveableTextField fx:id="tfLazySeekNearbyMin" GridPane.columnIndex="1" GridPane.rowIndex="14" text="0.2" maxWidth="60" />
+
+    <Label text="Lazy seek nearby max" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+    <SaveableTextField fx:id="tfLazySeekNearbyMax" GridPane.columnIndex="3" GridPane.rowIndex="14" text="5.0" maxWidth="60" />
+
+    <Label text="Lazy seek same (%)" GridPane.columnIndex="0" GridPane.rowIndex="15" />
+    <SaveableTextField fx:id="tfLazySeekSameChance" GridPane.columnIndex="1" GridPane.rowIndex="15" text="10" maxWidth="60" />
 </GridPane>

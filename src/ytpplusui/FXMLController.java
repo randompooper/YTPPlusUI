@@ -138,6 +138,16 @@ public class FXMLController {
         if (effects.getLazySwitch() && cfg.getLazySource().length() > 0)
             ytp.setLazySwitchStartingSource(cfg.getLazySource());
 
+        ytp.setLazySeek(effects.getLazySeek());
+        ytp.setLazySeekChance(effects.getLazySeekChance());
+        ytp.setLazySeekFromStart(effects.getLazySeekFromStart());
+        ytp.setLazySeekInterrupt(effects.getLazySeekInterrupt());
+        ytp.setLazySeekMaxClips(effects.getLazySeekMaxClips());
+        ytp.setLazySeekNearby(effects.getLazySeekNearby());
+        ytp.setLazySeekNearbyMin(effects.getLazySeekNearbyMin());
+        ytp.setLazySeekNearbyMax(effects.getLazySeekNearbyMax());
+        ytp.setLazySeekSameChance(effects.getLazySeekSameChance());
+
         ytp.setQualityConvert(cfg.getQualityConvert());
 
         ytp.setProgressCallback(ytp.new ProgressCallback() {

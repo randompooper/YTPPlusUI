@@ -46,10 +46,13 @@ public class EffectsController {
         slowDown, chorusAudio, vibratoAudio, highPitch, lowPitch,
         mirror, dance, squidward, effectChance, transitionClipChance,
         tfClipCount, tfMaxStream, tfMinStream, tfLazySwitchChance,
-        tfLazySwitchInterrupt, tfLazySwitchMaxClips;
+        tfLazySwitchInterrupt, tfLazySwitchMaxClips, tfLazySeekChance,
+        tfLazySeekInterrupt, tfLazySeekMaxClips, tfLazySeekNearbyMin,
+        tfLazySeekNearbyMax, tfLazySeekSameChance;
 
     @FXML
-    private SaveableCheckBox cbLazySwitch;
+    private SaveableCheckBox cbLazySwitch, cbLazySeek,
+        cbLazySeekFromStart, cbLazySeekNearby;
 
     private int getInt(TextField tf) {
         return Integer.parseInt(tf.getText());
@@ -141,5 +144,41 @@ public class EffectsController {
 
     public int getLazySwitchMaxClips() {
         return getInt(tfLazySwitchMaxClips);
+    }
+
+    public boolean getLazySeek() {
+        return cbLazySeek.isSelected();
+    }
+
+    public int getLazySeekChance() {
+        return getInt(tfLazySeekChance);
+    }
+
+    public boolean getLazySeekFromStart() {
+        return cbLazySeekFromStart.isSelected();
+    }
+
+    public int getLazySeekInterrupt() {
+        return getInt(tfLazySeekInterrupt);
+    }
+
+    public int getLazySeekMaxClips() {
+        return getInt(tfLazySeekMaxClips);
+    }
+
+    public boolean getLazySeekNearby() {
+        return cbLazySeekNearby.isSelected();
+    }
+
+    public double getLazySeekNearbyMin() {
+        return getDouble(tfLazySeekNearbyMin);
+    }
+
+    public double getLazySeekNearbyMax() {
+        return getDouble(tfLazySeekNearbyMax);
+    }
+
+    public int getLazySeekSameChance() {
+        return getInt(tfLazySeekSameChance);
     }
 }
