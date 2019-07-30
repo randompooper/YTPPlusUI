@@ -148,7 +148,7 @@ public class FXMLController {
         ytp.setLazySeekNearbyMax(effects.getLazySeekNearbyMax());
         ytp.setLazySeekSameChance(effects.getLazySeekSameChance());
 
-        ytp.setQualityConvert(cfg.getQualityConvert());
+        ytp.setReconvertEffected(cfg.getReconvertClips());
 
         ytp.setProgressCallback(ytp.new ProgressCallback() {
             private double pv = 0.0;

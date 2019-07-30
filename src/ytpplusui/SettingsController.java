@@ -53,11 +53,11 @@ public class SettingsController {
     }
 
     @FXML
-    private SaveableTextField tfFFMPEG, tfFFPROBE, tfMAGICK, tfTEMP, tfSOUNDS,
-        tfMUSIC, tfRESOURCES, tfSOURCES;
+    private SaveableTextField tfFFMPEG, tfFFPROBE, tfMAGICK, tfTEMP,
+        tfSOUNDS, tfMUSIC, tfRESOURCES, tfSOURCES;
 
     @FXML
-    private SaveableCheckBox cbQualityConvert;
+    private SaveableCheckBox cbReconvertClips;
 
     @FXML
     private TextField tfLazySource;
@@ -107,8 +107,8 @@ public class SettingsController {
         tfLazySource.setText(path);
     }
 
-    public boolean getQualityConvert() {
-        return cbQualityConvert.isSelected();
+    public boolean getReconvertClips() {
+        return cbReconvertClips.isSelected();
     }
 
     @FXML

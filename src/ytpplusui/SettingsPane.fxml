@@ -56,6 +56,6 @@
         <TextField fx:id="tfLazySource" HBox.Hgrow="always" maxWidth="Infinity" text="" />
         <Button fx:id="btnBrowseLazySource" mnemonicParsing="false" onAction="#openBrowser" text="..." />
     </HBox>
-    <Label text="High quality concantenation:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-    <SaveableCheckBox fx:id="cbQualityConvert" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="10" maxWidth="Infinity" />
+    <Label text="Reconvert clips:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+    <SaveableCheckBox fx:id="cbReconvertClips" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="10" maxWidth="Infinity" />
 </GridPane>
