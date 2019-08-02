@@ -150,6 +150,23 @@ public class FXMLController {
 
         ytp.setReconvertEffected(cfg.getReconvertClips());
 
+        YTPGenerator.ConcatMethod method;
+        switch (cfg.getConcatMethod()) {
+            case 0:
+                method = YTPGenerator.ConcatMethod.DEMUXER;
+                break;
+            case 1:
+                method = YTPGenerator.ConcatMethod.CONCAT_PROTO;
+                break;
+            case 2:
+            default:
+                method = YTPGenerator.ConcatMethod.CONCAT_FILTER;
+                System.err.println("Concat filter disables clip reconvertion");
+                ytp.setReconvertEffected(false);
+                break;
+        }
+        ytp.setConcatMethod(method);
+
         ytp.setProgressCallback(ytp.new ProgressCallback() {
             private double pv = 0.0;
             @Override

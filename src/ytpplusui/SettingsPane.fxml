@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.GridPane?>
@@ -56,6 +59,16 @@
         <TextField fx:id="tfLazySource" HBox.Hgrow="always" maxWidth="Infinity" text="" />
         <Button fx:id="btnBrowseLazySource" mnemonicParsing="false" onAction="#openBrowser" text="..." />
     </HBox>
-    <Label text="Reconvert clips:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-    <SaveableCheckBox fx:id="cbReconvertClips" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="10" maxWidth="Infinity" />
+    <Label text="Concat method:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+    <ComboBox fx:id="comboConcatMethod" GridPane.columnIndex="1" GridPane.rowIndex="10" maxWidth="Infinity">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Demuxer (very fast)" />
+                <String fx:value="Concat protocol (faster)" />
+                <String fx:value="Concat filter (slow, high mem usage)" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <Label text="Reconvert clips:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+    <SaveableCheckBox fx:id="cbReconvertClips" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="11" maxWidth="Infinity" />
 </GridPane>

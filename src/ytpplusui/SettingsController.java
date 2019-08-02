@@ -15,8 +15,11 @@ import javafx.stage.Stage;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import java.util.prefs.Preferences;
 import ytpplusui.SaveableTextField;
 import ytpplusui.SaveableCheckBox;
 
@@ -38,6 +41,7 @@ public class SettingsController {
         myStage.setResizable(false);
 
         me = loader.getController();
+        me.initUI();
     }
 
     public static void open() {
@@ -66,6 +70,20 @@ public class SettingsController {
     private Button btnBrowseFFMPEG, btnBrowseFFPROBE, btnBrowseMAGICK,
         btnBrowseTEMP, btnBrowseSOUNDS, btnBrowseMUSIC,
         btnBrowseRESOURCES, btnBrowseSOURCES, btnBrowseLazySource;
+
+    @FXML
+    private ComboBox<String> comboConcatMethod;
+
+    public void initUI() {
+        SingleSelectionModel<String> model = comboConcatMethod.getSelectionModel();
+        Preferences pref = Preferences.userNodeForPackage(MainApp.class);
+        model.selectedIndexProperty().addListener((ob, oldV, newV) -> {
+            int idx = (int)newV;
+            pref.putInt(comboConcatMethod.getId(), idx);
+            cbReconvertClips.setDisable(idx == 2);
+        });
+        model.select(pref.getInt(comboConcatMethod.getId(), 2));
+    }
 
     public String getFFmpeg() {
         return tfFFMPEG.getText();
@@ -109,6 +127,10 @@ public class SettingsController {
 
     public boolean getReconvertClips() {
         return cbReconvertClips.isSelected();
+    }
+
+    public int getConcatMethod() {
+        return comboConcatMethod.getSelectionModel().getSelectedIndex();
     }
 
     @FXML
