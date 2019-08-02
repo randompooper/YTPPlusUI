@@ -59,8 +59,13 @@
         <TextField fx:id="tfLazySource" HBox.Hgrow="always" maxWidth="Infinity" text="" />
         <Button fx:id="btnBrowseLazySource" mnemonicParsing="false" onAction="#openBrowser" text="..." />
     </HBox>
-    <Label text="Concat method:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-    <ComboBox fx:id="comboConcatMethod" GridPane.columnIndex="1" GridPane.rowIndex="10" maxWidth="Infinity">
+    <Label text="Intro video:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="10">
+        <SaveableTextField fx:id="tfIntro" HBox.Hgrow="always" maxWidth="Infinity" text="" />
+        <Button fx:id="btnBrowseIntro" mnemonicParsing="false" onAction="#openBrowser" text="..." />
+    </HBox>
+    <Label text="Concat method:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+    <ComboBox fx:id="comboConcatMethod" GridPane.columnIndex="1" GridPane.rowIndex="11" maxWidth="Infinity">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Demuxer (very fast)" />
@@ -69,6 +74,6 @@
             </FXCollections>
         </items>
     </ComboBox>
-    <Label text="Reconvert clips:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-    <SaveableCheckBox fx:id="cbReconvertClips" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="11" maxWidth="Infinity" />
+    <Label text="Reconvert clips:" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+    <SaveableCheckBox fx:id="cbReconvertClips" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="12" maxWidth="Infinity" />
 </GridPane>

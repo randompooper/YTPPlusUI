@@ -126,7 +126,8 @@ public class FXMLController {
         ytp.setEffect("Squidward", effects.getSquidward());
         ytp.setEffect("Mirror", effects.getMirror());
 
-        ytp.setMaxClips(effects.getClipCount());
+        String intro = cfg.getIntro();
+        ytp.setMaxClips(effects.getClipCount() + (intro.equals("") ? 0 : 1));
         ytp.setMaxDuration(effects.getMaxStream());
         ytp.setMinDuration(effects.getMinStream());
 
@@ -148,6 +149,7 @@ public class FXMLController {
         ytp.setLazySeekNearbyMax(effects.getLazySeekNearbyMax());
         ytp.setLazySeekSameChance(effects.getLazySeekSameChance());
 
+        ytp.setIntroVideo(intro.equals("") ? null : intro);
         ytp.setReconvertEffected(cfg.getReconvertClips());
 
         YTPGenerator.ConcatMethod method;

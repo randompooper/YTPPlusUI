@@ -58,7 +58,7 @@ public class SettingsController {
 
     @FXML
     private SaveableTextField tfFFMPEG, tfFFPROBE, tfMAGICK, tfTEMP,
-        tfSOUNDS, tfMUSIC, tfRESOURCES, tfSOURCES;
+        tfSOUNDS, tfMUSIC, tfRESOURCES, tfSOURCES, tfIntro;
 
     @FXML
     private SaveableCheckBox cbReconvertClips;
@@ -68,7 +68,7 @@ public class SettingsController {
 
     @FXML
     private Button btnBrowseFFMPEG, btnBrowseFFPROBE, btnBrowseMAGICK,
-        btnBrowseTEMP, btnBrowseSOUNDS, btnBrowseMUSIC,
+        btnBrowseTEMP, btnBrowseSOUNDS, btnBrowseMUSIC, btnBrowseIntro,
         btnBrowseRESOURCES, btnBrowseSOURCES, btnBrowseLazySource;
 
     @FXML
@@ -125,6 +125,10 @@ public class SettingsController {
         tfLazySource.setText(path);
     }
 
+    public String getIntro() {
+        return tfIntro.getText();
+    }
+
     public boolean getReconvertClips() {
         return cbReconvertClips.isSelected();
     }
@@ -162,6 +166,10 @@ public class SettingsController {
                 break;
             case "btnBrowseLazySource":
                 actuallyOpenBrowser(tfLazySource);
+                break;
+            case "btnBrowseIntro":
+                actuallyOpenBrowser(tfIntro);
+                break;
         }
     }
 
