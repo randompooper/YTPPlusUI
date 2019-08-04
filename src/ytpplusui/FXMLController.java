@@ -1,3 +1,19 @@
+/* Copyright 2019 randompooper
+ * This file is part of YTPPlusUI.
+ *
+ * YTPPlusUI is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * YTPPlusUI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with YTPPlusUI.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package ytpplusui;
 
 import java.awt.Desktop;
@@ -11,6 +27,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.lang.reflect.Method;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,40 +45,27 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javax.swing.DefaultListModel;
-import ytpplusui.EffectsController;
-import ytpplusui.SettingsController;
-import zone.arctic.ytpplus.YTPGenerator;
-import zone.arctic.ytpplus.Utilities;
+import ytpplusui.SettingsWindow;
+import ytpplusui.SettingsOption;
+import ytpplusui.SettingsOption.Value;
+import ytpplusui.SettingsOption.OptionType;
+import ytpplus.YTPGenerator;
+import ytpplus.Utilities;
 
 public class FXMLController {
     @FXML
-    private TextField tfClipCount, tfMaxStream, tfMinStream;
+    void makeLazy(ActionEvent event) {
+        PathElement p = (PathElement)cfg.lookup("#LazySwitchStartingSource");
+        assert(p != null);
 
-    @FXML
-    private ProgressBar barProgress;
+        ObservableList<String> selection = getSelectedSources();
+        if (selection.size() < 1)
+            return;
 
-    @FXML
-    private Button btnBrowseFFMPEG, btnBrowseFFPROBE,btnBrowseMAGICK,
-        btnBrowseTEMP, btnBrowseSOUNDS, btnBrowseMUSIC, btnSaveAs,
-        btnBrowseRESOURCES, tfSOURCES, btnBrowseSOURCES, btnCreate;
-
-    @FXML
-    private ListView<String> listviewSourcesList;
-
-    //javafx sucks. It's got a lot under the hood but it sucks.
-    //This is incredibly messy. And I can't fix it because javafx sucks.
-    //Moral of this story is don't use javafx. Swing is your friend.
-
-    private ObservableList<String> sourceList = FXCollections.observableArrayList();
-
-    private File LAST_BROWSED;
-
-    private String jobDir;
-
-    private YTPGenerator ytp = new YTPGenerator();
+        p.setPath(selection.get(0));
+    }
 
     @FXML
     void addSource(ActionEvent event) {
@@ -74,7 +78,9 @@ public class FXMLController {
         if (selected == null)
             return;
 
-        ytp.setFFprobe(SettingsController.getController().getFFprobe());
+        /* TO DO: Open dialog and report progress on how each video
+         * processes
+         */
         for (File file : selected) {
             String path = file.getAbsolutePath().replace('\\', '/');
             if (ytp.addSource(path))
@@ -84,90 +90,17 @@ public class FXMLController {
         LAST_BROWSED = selected.get(0).getParentFile();
     }
 
-    private Thread vidThread;
     @FXML
     void goNow(ActionEvent event) throws Exception {
         if (sourceList.isEmpty()) {
             System.out.println("You need some sources...");
             return;
         }
-
-        SettingsController cfg = SettingsController.getController();
-        EffectsController effects = EffectsController.getController();
-
-        String TEMP = cfg.getTemp();
-
-        ytp.setFFmpeg(cfg.getFFmpeg());
-        ytp.setFFprobe(cfg.getFFprobe());
-        ytp.setMagick(cfg.getMagick());
-
-        jobDir = TEMP + "job_" + System.currentTimeMillis() + "/";
-        ytp.setOutputFile(TEMP + "tempoutput.mp4");
+        jobDir = TEMP + "/job_" + System.currentTimeMillis() + "/";
+        ytp.setOutputFile(TEMP + "/tempoutput.mp4");
         ytp.setTemp(jobDir);
         new File(TEMP).mkdir();
         new File(ytp.getTemp()).mkdir();
-        ytp.setSounds(cfg.getSounds());
-        ytp.setMusic(cfg.getMusic());
-        ytp.setResources(cfg.getResources());
-        ytp.setSources(cfg.getSources());
-
-        ytp.setTransitionClipChance(effects.getTransitionChance());
-        ytp.setEffectChance(effects.getEffectChance());
-        ytp.setEffect("RandomSound", effects.getRandomSound());
-        ytp.setEffect("RandomSoundMute", effects.getRandomSoundMute());
-        ytp.setEffect("Reverse", effects.getReverse());
-        ytp.setEffect("SpeedUp", effects.getSpeedUp());
-        ytp.setEffect("SlowDown", effects.getSlowDown());
-        ytp.setEffect("Chorus", effects.getChorus());
-        ytp.setEffect("Vibrato", effects.getVibrato());
-        ytp.setEffect("HighPitch", effects.getHighPitch());
-        ytp.setEffect("LowPitch", effects.getLowPitch());
-        ytp.setEffect("Dance", effects.getDance());
-        ytp.setEffect("Squidward", effects.getSquidward());
-        ytp.setEffect("Mirror", effects.getMirror());
-
-        String intro = cfg.getIntro();
-        ytp.setMaxClips(effects.getClipCount() + (intro.equals("") ? 0 : 1));
-        ytp.setMaxDuration(effects.getMaxStream());
-        ytp.setMinDuration(effects.getMinStream());
-
-        ytp.setLazySwitch(effects.getLazySwitch());
-        ytp.setLazySwitchChance(effects.getLazySwitchChance());
-        ytp.setLazySwitchInterrupt(effects.getLazySwitchInterrupt());
-        ytp.setLazySwitchMaxClips(effects.getLazySwitchMaxClips());
-
-        if (effects.getLazySwitch() && cfg.getLazySource().length() > 0)
-            ytp.setLazySwitchStartingSource(cfg.getLazySource());
-
-        ytp.setLazySeek(effects.getLazySeek());
-        ytp.setLazySeekChance(effects.getLazySeekChance());
-        ytp.setLazySeekFromStart(effects.getLazySeekFromStart());
-        ytp.setLazySeekInterrupt(effects.getLazySeekInterrupt());
-        ytp.setLazySeekMaxClips(effects.getLazySeekMaxClips());
-        ytp.setLazySeekNearby(effects.getLazySeekNearby());
-        ytp.setLazySeekNearbyMin(effects.getLazySeekNearbyMin());
-        ytp.setLazySeekNearbyMax(effects.getLazySeekNearbyMax());
-        ytp.setLazySeekSameChance(effects.getLazySeekSameChance());
-
-        ytp.setIntroVideo(intro.equals("") ? null : intro);
-        ytp.setReconvertEffected(cfg.getReconvertClips());
-
-        YTPGenerator.ConcatMethod method;
-        switch (cfg.getConcatMethod()) {
-            case 0:
-                method = YTPGenerator.ConcatMethod.DEMUXER;
-                break;
-            case 1:
-                method = YTPGenerator.ConcatMethod.CONCAT_PROTO;
-                break;
-            case 2:
-            default:
-                method = YTPGenerator.ConcatMethod.CONCAT_FILTER;
-                System.err.println("Concat filter disables clip reconvertion");
-                ytp.setReconvertEffected(false);
-                break;
-        }
-        ytp.setConcatMethod(method);
 
         ytp.setProgressCallback(ytp.new ProgressCallback() {
             private double pv = 0.0;
@@ -228,8 +161,7 @@ public class FXMLController {
 
     @FXML
     void saveAsVideo(ActionEvent event) {
-        SettingsController cfg = SettingsController.getController();
-        if (!new File(cfg.getTemp() + "tempoutput.mp4").exists())
+        if (!new File(TEMP + "/tempoutput.mp4").exists())
             return;
 
         FileChooser.ExtensionFilter fileFilter = new FileChooser.ExtensionFilter("Video files (*.mp4)", "*.mp4");
@@ -241,7 +173,7 @@ public class FXMLController {
         if (selected == null)
             return;
 
-        Path temp = Paths.get(cfg.getTemp() + "tempoutput.mp4");
+        Path temp = Paths.get(TEMP + "/tempoutput.mp4");
         try {
             Files.copy(temp, selected.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception ex) {
@@ -250,23 +182,193 @@ public class FXMLController {
     }
 
     @FXML
-    void openEffectsWindow(ActionEvent event) {
-        EffectsController.open();
-    }
-
-    @FXML
     void openSettingsWindow(ActionEvent event) {
-        SettingsController.open();
+        cfg.show();
     }
 
     @FXML
-    void makeLazy(ActionEvent event) {
-        ObservableList<String> list = getSelectedSources();
-        if (list.size() > 0)
-            SettingsController.getController().setLazySource(list.get(0));
+    void openEffectsWindow(ActionEvent event) {
+        effects.show();
     }
 
-    public static int randomInt(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
+    private SettingsOption ytpOpt(String name, String description, OptionType type) {
+        return ytpOpt(name, description, type, true);
     }
+
+    private SettingsOption ytpOpt(String name, String description, OptionType type, boolean save) {
+        return ytpOpt(name, description, type, save, null);
+    }
+
+    private SettingsOption ytpOpt(String name, String description, OptionType type, boolean save, Object[] extra) {
+        Value val = null;
+        try {
+            switch (type) {
+
+            case TextField:
+            case PathDir:
+            case PathFile:
+                val = new YTPValue<String>(name, String.class);
+                break;
+
+            case DoubleNumberField:
+                val = new YTPValue<Double>(name, double.class);
+                break;
+
+            /* Provide int wrapper in case your getter/setter is working with enum */
+            case ComboBox:
+            case IntegerNumberField:
+                val = new YTPValue<Integer>(name, int.class);
+                break;
+
+            case CheckBox:
+                val = new YTPValue<Boolean>(name, boolean.class);
+                break;
+
+            }
+        } catch (Exception ex) {
+            System.err.println("AVAST! " + ex);
+        }
+        return new SettingsOption(name, description, type, val, save, extra);
+    }
+
+    private SettingsOption ytpEffectOpt(String name, String description) {
+        return new SettingsOption(name, description, OptionType.DoubleNumberField, new YTPEffectValue(name));
+    }
+
+    /* Wrap YTPGenerator generic getter/setter */
+    private class YTPValue<T> implements Value {
+        public YTPValue(String name, Class<?> cls) throws Exception {
+            getter = YTPGenerator.class.getMethod("get" + name);
+            setter = YTPGenerator.class.getMethod("set" + name, cls);
+        }
+        @Override
+        public Object get() {
+            try {
+                return getter.invoke(ytp);
+            } catch (Exception ex) {
+                System.err.println("AVAST! " + ex);
+            }
+            return null;
+        }
+        @Override
+        public Boolean set(Object value) {
+            try {
+                return (Boolean)setter.invoke(ytp, (T)value);
+            } catch (Exception ex) {
+                System.err.println("AVAST! " + ex);
+            }
+            return false;
+        }
+
+        private final Method getter, setter;
+    }
+
+    private class YTPEffectValue implements Value {
+        public YTPEffectValue(String name) {
+            effectName = name;
+        }
+
+        @Override
+        public Object get() {
+            return ytp.getEffect(effectName);
+        }
+        @Override
+        public Boolean set(Object value) {
+            ytp.setEffect(effectName, (double)value);
+            return null;
+        }
+
+        final private String effectName;
+    }
+
+    private YTPGenerator ytp = new YTPGenerator();
+
+    private File LAST_BROWSED;
+    private String TEMP = "temp", jobDir;
+
+    private SettingsWindow cfg, effects;
+    {
+        SettingsOption[] opts = new SettingsOption[] {
+            ytpOpt("FFmpeg", "ffmpeg", OptionType.PathFile),
+            ytpOpt("FFprobe", "ffprobe", OptionType.PathFile),
+            ytpOpt("Magick", "magick", OptionType.PathFile),
+            new SettingsOption("Temp", "temp", OptionType.PathDir, new Value() {
+                @Override
+                public Object get() {
+                    return TEMP;
+                }
+                @Override
+                public Boolean set(Object value) {
+                    TEMP = (String)value;
+                    return null;
+                }
+            }),
+            ytpOpt("Sounds", "sounds", OptionType.PathDir),
+            ytpOpt("Music", "music", OptionType.PathDir),
+            ytpOpt("Resources", "resources", OptionType.PathDir),
+            ytpOpt("Sources", "sources", OptionType.PathDir),
+            ytpOpt("LazySwitchStartingSource", "Lazy source", OptionType.PathFile, false),
+            ytpOpt("IntroVideo", "Intro clip", OptionType.PathFile),
+            ytpOpt("ConcatMethod", "Concatenation method",
+                OptionType.ComboBox, true, new String[] {
+                    "Demuxer",
+                    "Concat protocol",
+                    "Concat filter"
+                }
+            ),
+            ytpOpt("ReconvertEffected", "Reconvert clips", OptionType.CheckBox)
+        };
+        cfg = new SettingsWindow(opts);
+    }
+    {
+        SettingsOption[] opts = new SettingsOption[] {
+            ytpEffectOpt("RandomSound", "Random sound"),
+            ytpEffectOpt("RandomSoundMute", "Random sound (w/mute)"),
+            ytpEffectOpt("Reverse", "Reverse clip"),
+            ytpEffectOpt("SpeedUp", "Speed up clip (no pitch)"),
+            ytpEffectOpt("SlowDown", "Slow down clip (no pitch)"),
+            ytpEffectOpt("Chorus", "Chorus audio"),
+            ytpEffectOpt("Vibrato", "Vibrato audio"),
+            ytpEffectOpt("HighPitch", "Speed up clip (w/pitch)"),
+            ytpEffectOpt("LowPitch", "Slow down clip (w/pitch)"),
+            ytpEffectOpt("Mirror", "Mirror"),
+            ytpEffectOpt("Dance", "Dance"),
+            ytpEffectOpt("Squidward", "Squidward"),
+            ytpOpt("EffectChance", "Effect (%)", OptionType.DoubleNumberField),
+            ytpOpt("TransitionClipChance", "Transition clip (%)", OptionType.DoubleNumberField),
+            ytpOpt("MinDuration", "Min clip duration", OptionType.DoubleNumberField),
+            ytpOpt("MaxDuration", "Max clip duration", OptionType.DoubleNumberField),
+            ytpOpt("MaxClips", "Clip count", OptionType.IntegerNumberField),
+            ytpOpt("LazySwitch", "Lazy switching", OptionType.CheckBox),
+            ytpOpt("LazySwitchChance", "Lazy switch (%)", OptionType.DoubleNumberField),
+            ytpOpt("LazySwitchInterrupt", "Lazy interrupt (%)", OptionType.DoubleNumberField),
+            ytpOpt("LazySwitchMaxClips", "Lazy switch max clips", OptionType.IntegerNumberField),
+            ytpOpt("LazySeek", "Lazy seeking", OptionType.CheckBox),
+            ytpOpt("LazySeekChance", "Lazy seek (%)", OptionType.DoubleNumberField),
+            ytpOpt("LazySeekFromStart", "Lazy seek from start", OptionType.CheckBox),
+            ytpOpt("LazySeekInterrupt", "Lazy seek interrupt (%)", OptionType.DoubleNumberField),
+            ytpOpt("LazySeekMaxClips", "Lazy seek max clips", OptionType.IntegerNumberField),
+            ytpOpt("LazySeekNearby", "Lazy seek nearby", OptionType.CheckBox),
+            ytpOpt("LazySeekNearbyMin", "Lazy seek nearby min", OptionType.DoubleNumberField),
+            ytpOpt("LazySeekNearbyMax", "Lazy seek nearby max", OptionType.DoubleNumberField),
+            ytpOpt("LazySeekSameChance", "Lazy seek same (%)", OptionType.DoubleNumberField)
+        };
+        effects = new SettingsWindow(opts, 2);
+    }
+
+    private Thread vidThread;
+
+    @FXML
+    private Button btnCreate;
+
+    @FXML
+    private TextField tfClipCount, tfMaxStream, tfMinStream;
+
+    @FXML
+    private ProgressBar barProgress;
+
+    @FXML
+    private ListView<String> listviewSourcesList;
+
+    private ObservableList<String> sourceList = FXCollections.observableArrayList();
 }
