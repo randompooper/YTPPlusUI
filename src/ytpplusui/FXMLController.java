@@ -133,6 +133,7 @@ public class FXMLController {
             return;
 
         vidThread.stop();
+        ytp.stop();
         vidThread = null;
         btnCreate.setDisable(false);
         Utilities.rmDir(new File(jobDir));
