@@ -15,10 +15,14 @@
  * along with YTPPlusUI.  If not, see <https://www.gnu.org/licenses/>.
  */
 package ytpplusui;
-
+/* SEPARATE SOURCE */
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -190,6 +194,54 @@ public class FXMLController {
     @FXML
     void openEffectsWindow(ActionEvent event) {
         effects.show();
+    }
+
+    @FXML
+    void importList(ActionEvent event) {
+        FileChooser.ExtensionFilter fileFilter = new FileChooser.ExtensionFilter("Text files", "*.txt");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(fileFilter);
+        fileChooser.setTitle("Import sources list from ...");
+        fileChooser.setInitialDirectory(LAST_BROWSED);
+        File selected = fileChooser.showOpenDialog(null);
+        if (selected == null)
+            return;
+
+        try {
+            String path;
+            BufferedReader br = new BufferedReader(new FileReader(selected));
+            removeAllSource(null);
+            while ((path = br.readLine()) != null)
+                if (ytp.addSource(path))
+                    sourceList.add(path);
+
+            listviewSourcesList.setItems(sourceList);
+        } catch (Exception ex) {
+            System.out.println("Had problems importing sources list");
+        }
+    }
+
+    @FXML
+    void exportList(ActionEvent event) {
+        FileChooser.ExtensionFilter fileFilter = new FileChooser.ExtensionFilter("Text files", "*.txt");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(fileFilter);
+        fileChooser.setTitle("Export sources list to ...");
+        fileChooser.setInitialDirectory(LAST_BROWSED);
+        File selected = fileChooser.showSaveDialog(null);
+        if (selected == null)
+            return;
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(selected));
+            for (String source : sourceList) {
+                bw.write(source);
+                bw.newLine();
+            }
+            bw.close();
+        } catch (Exception ex) {
+            System.out.println("Had problems exporting sources list");
+        }
     }
 
     private SettingsOption ytpOpt(String name, String description, OptionType type) {

@@ -34,6 +34,10 @@
         <Button text="Clear all" onAction="#removeAllSource" HBox.Hgrow="always" maxWidth="Infinity" />
         <Button text="Lazy" onAction="#makeLazy" HBox.Hgrow="always" maxWidth="Infinity" />
     </HBox>
+    <HBox>
+        <Button text="Import" onAction="#importList" HBox.Hgrow="always" maxWidth="Infinity" />
+        <Button text="Export" onAction="#exportList" HBox.Hgrow="always" maxWidth="Infinity" />
+    </HBox>
     <Label text=" " />
     <GridPane hgap="5" vgap="2">
         <Button text="Configure utilities and paths" onAction="#openSettingsWindow" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.Hgrow="always" maxWidth="Infinity" />
